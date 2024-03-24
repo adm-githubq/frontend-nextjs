@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .nav-item {
+    @apply relative text-lg font-semibold;
+  }
+  .nav-item::after {
+    @apply content-[""] absolute block w-[0%] h-[1px] bottom-0 left-0 transform origin-bottom-left transition-all duration-300 ease-out;
+  }
+  .nav-item:hover::after {
+    @apply w-full;
+  }
+
+  .styled-scrollbar::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 5px;
+  }
+
+  .styled-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  @apply font-sans;
+}

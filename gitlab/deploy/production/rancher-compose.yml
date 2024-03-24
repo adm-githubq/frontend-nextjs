@@ -1,0 +1,22 @@
+version: '2'
+services:
+  lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      port_rules:
+        - hostname: $HOSTNAME
+          protocol: http
+          source_port: 80
+          target_port: 80
+          selector: web.container.target=$CI_PROJECT_PATH_SLUG.$CI_ENV
+    health_check:
+      port: 42
+      interval: 2000
+      unhealthy_threshold: 2
+      healthy_threshold: 2
+      response_timeout: 2000
+  web:
+    scale: 3
+    start_on_create: true
+    drain_timeout_ms: 10000

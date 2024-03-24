@@ -1,0 +1,19 @@
+version: "2"
+services:
+  lb:
+    image: rancher/lb-service-haproxy:v0.9.14
+    expose:
+      - 80:80/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: "true"
+      io.rancher.container.agent_service.drain_provider: "true"
+      io.rancher.lb_service.target: any
+      web.http: "true"
+  web:
+    image: $WEB_IMAGE
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      web.container.target: $CI_PROJECT_PATH_SLUG.$CI_ENV
