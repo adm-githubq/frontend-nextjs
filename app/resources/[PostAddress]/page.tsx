@@ -13,7 +13,7 @@ export interface ResourceCategory {
 }
 const getResourcePageData = async (PostAddress: string) => {
   const resourcesPageData = await fetch(
-    `https://cms.quantumadr.com/api/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
     { next: { revalidate: 0 } }
   )
   if (!resourcesPageData.ok) {
@@ -24,7 +24,7 @@ const getResourcePageData = async (PostAddress: string) => {
 
 const getResourcesCategoriesData = async () => {
   const resourcesCategoriesData = await fetch(
-    `https://cms.quantumadr.com/api/categories?populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/categories?populate=*`,
     { next: { revalidate: 0 } }
   )
   if (!resourcesCategoriesData.ok) {

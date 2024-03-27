@@ -5,13 +5,10 @@ import { HomePageHeader } from '@/modules/HomePage/Header'
 import { ServicesSection } from '@/modules/HomePage/ServicesSection'
 import { TestimonialsSection } from '@/modules/HomePage/TestimonialsSection'
 import { ToolsSection } from '@/modules/HomePage/ToolsSection'
-const { signal } = new AbortController()
-
-const apiUrl = process.env.API_URL
 
 const getHomePageData = async () => {
   const homePageData = await fetch(
-    `https://cms.quantumadr.com/api/home-page?populate=Tiles.TileImage,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage`,
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage`,
     { next: { revalidate: 3600 } }
   )
   if (!homePageData.ok) {
@@ -22,7 +19,7 @@ const getHomePageData = async () => {
 
 const getResourcesData = async () => {
   const resourcesPageData = await fetch(
-    `https://cms.quantumadr.com/api/blog-posts?populate=PostTitle,Thumbnail,ResourceLabel&sort=createdAt:desc`,
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate=PostTitle,Thumbnail,ResourceLabel&sort=createdAt:desc`,
     { next: { revalidate: 1 } }
   )
   if (!resourcesPageData.ok) {

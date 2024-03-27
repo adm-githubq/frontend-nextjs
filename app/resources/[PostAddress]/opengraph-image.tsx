@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 
 const getResourcePageData = async (PostAddress: string) => {
   const resourcesPageData = await fetch(
-    `https://cms.quantumadr.com/api/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
     { next: { revalidate: 3600 } }
   )
   if (!resourcesPageData.ok) {

@@ -17,7 +17,7 @@ export const ResourcesSection = ({ resourcesData }: resourcesListProps) => {
 
   const fetchFilteredResources = async () => {
     const filteredResources = await fetch(
-      `https://cms.quantumadr.com/api/blog-posts?populate[0]=categories&filters[categories][id][$eq]=${categoryId}&populate[1]=FeaturedImage,Thumbnail`,
+      `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate[0]=categories&filters[categories][id][$eq]=${categoryId}&populate[1]=FeaturedImage,Thumbnail`,
       { next: { revalidate: 0 } }
     )
     if (!filteredResources.ok) {

@@ -11,7 +11,7 @@ import { defaultMetadata } from '@/core/metadata'
 
 const getAboutPageData = async () => {
   const aboutPageData = await fetch(
-    'https://cms.quantumadr.com/api/about-page',
+    `${process.env.NEXT_PUBLIC_API_URL}/about-page`,
     { next: { revalidate: 3600 } }
   )
   if (!aboutPageData.ok) {
@@ -22,7 +22,7 @@ const getAboutPageData = async () => {
 
 const getTestimonialsData = async () => {
   const testimonialsData = await fetch(
-    'https://cms.quantumadr.com/api/home-page?populate=Testimonials&fields=TestimonialsSectionTitle',
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Testimonials&fields=TestimonialsSectionTitle`,
     { next: { revalidate: 3600 } }
   )
   if (!testimonialsData.ok) {

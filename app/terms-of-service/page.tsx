@@ -3,7 +3,7 @@ import HeaderBackground from '@/public/HeaderBackground_v2.svg'
 
 const getTermsOfServicePageData = async () => {
   const termsOfServicePageData = await fetch(
-    'https://cms.quantumadr.com/api/terms-of-service',
+    `${process.env.NEXT_PUBLIC_API_URL}/terms-of-service`,
     { next: { revalidate: 0 } }
   )
   if (!termsOfServicePageData.ok) {

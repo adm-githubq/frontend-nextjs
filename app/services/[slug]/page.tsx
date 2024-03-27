@@ -9,7 +9,7 @@ import { OtherService, Service, getOtherServices } from '@/core/services'
 
 const FetchServiceData = async (slug: string) => {
   const ServiceData = await fetch(
-    `https://cms.quantumadr.com/api/${slug}-service-page?populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/${slug}-service-page?populate=*`,
     { next: { revalidate: 600 } }
   )
   if (!ServiceData.ok) {
@@ -20,7 +20,7 @@ const FetchServiceData = async (slug: string) => {
 
 const FetchOtherServicesData = async () => {
   const OtherServicesData = await fetch(
-    'https://cms.quantumadr.com/api/home-page?populate=Tiles.TileImage',
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage`,
     { next: { revalidate: 3600 } }
   )
   if (!OtherServicesData.ok) {

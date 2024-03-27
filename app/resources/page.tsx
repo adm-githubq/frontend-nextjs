@@ -15,7 +15,7 @@ export interface ResourceCategory {
 
 const getResourcePageData = async () => {
   const resourcePageData = await fetch(
-    `https://cms.quantumadr.com/api/resource-page`
+    `${process.env.NEXT_PUBLIC_API_URL}/resource-page`
   )
   if (!resourcePageData.ok) {
     throw new Error('Failed to fetch resources page data')
@@ -25,7 +25,7 @@ const getResourcePageData = async () => {
 
 const getBlogPosts = async () => {
   const blogPostData = await fetch(
-    `https://cms.quantumadr.com/api/blog-posts?populate=*&sort=createdAt:desc`,
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate=*&sort=createdAt:desc`,
     { next: { revalidate: 0 } }
   )
   if (!blogPostData.ok) {
@@ -36,7 +36,7 @@ const getBlogPosts = async () => {
 
 const getResourcesCategoriesData = async () => {
   const resourcesCategoriesData = await fetch(
-    `https://cms.quantumadr.com/api/categories`,
+    `${process.env.NEXT_PUBLIC_API_URL}/categories`,
     { next: { revalidate: 3600 } }
   )
   if (!resourcesCategoriesData.ok) {
