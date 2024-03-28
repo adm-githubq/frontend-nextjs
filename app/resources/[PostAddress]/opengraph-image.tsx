@@ -1,9 +1,6 @@
 import { ImageResponse } from 'next/og'
 
 const getResourcePageData = async (PostAddress: string) => {
-    console.log(
-    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`
-    )
   const resourcesPageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
     { next: { revalidate: 3600 } }
