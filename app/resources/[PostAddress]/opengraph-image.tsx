@@ -1,6 +1,9 @@
 import { ImageResponse } from 'next/og'
 
 const getResourcePageData = async (PostAddress: string) => {
+    console.log(
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`
+    )
   const resourcesPageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
     { next: { revalidate: 3600 } }
@@ -19,7 +22,8 @@ export const generateImageMetadata = async ({
   const image = await getResourcePageData(params.PostAddress)
   const featuredImage = {
     url: image.data[0].attributes.FeaturedImage.data.attributes.formats.large
-      .url,
+        ? image.data[0].attributes.FeaturedImage.data.attributes.formats.large.url
+        : image?.data[0]?.attributes?.FeaturedImage?.data?.attributes?.url,
     size: { width: 1200, height: 600 },
     alt: image.data[0].attributes.PostTitle,
     contentType: 'image/png'

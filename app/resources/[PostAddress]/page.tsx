@@ -49,8 +49,13 @@ export const generateMetadata = async ({
     openGraph: {
       images: [
         {
-          url: postData?.data[0]?.attributes?.FeaturedImage?.data?.attributes
-            ?.formats?.large?.url,
+          url: postData.data[0].attributes.FeaturedImage.data.attributes.formats.large
+               ? postData.data[0].attributes.FeaturedImage.data.attributes.formats.large.url
+               : postData.data[0].attributes.FeaturedImage.data.attributes.formats.medium
+               ? postData.data[0].attributes.FeaturedImage.data.attributes.formats.medium.url
+               : postData.data[0].attributes.FeaturedImage.data.attributes.formats.small
+               ? postData.data[0].attributes.FeaturedImage.data.attributes.formats.small.url
+               : postData?.data[0]?.attributes?.FeaturedImage?.data?.attributes?.url,
           width: 1200,
           height: 600,
           alt: postData?.data[0]?.attributes?.PostTitle,
