@@ -15,7 +15,6 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL
 export const FeaturedSection = ({ featured }: ResourcesSectionProps) => {
   // TODO - check useLayoutEffect for dynamic lineclamp in featured content
   const contentRef = useRef<HTMLDivElement>(null)
-  console.log({ featured })
 
   // TODO - determine which featured resource to show
   const featuredTitle = featured[0].attributes.PostTitle ?? ''
