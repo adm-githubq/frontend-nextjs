@@ -42,7 +42,7 @@ export const ResourcesSection = ({ resourcesData }: resourcesListProps) => {
       id='resources-section'
     >
       <h2 className='w-full text-2xl md:text-4xl font-bold '>Blogs</h2>
-      <div className='w-full flex flex-col items-center gap-6 md:gap-0 md:flex-row md:justify-between md:flex-wrap'>
+      <div className='w-full flex flex-col items-center gap-6 md:gap-x-0 md:flex-row md:justify-between md:flex-wrap'>
         {resources.map(item => (
           <Card
             key={item.id}
