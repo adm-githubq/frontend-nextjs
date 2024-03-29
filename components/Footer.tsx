@@ -22,7 +22,7 @@ const Footer = () => {
 
   const otherLinks = [
     { name: 'Privacy Policy', link: '/privacy-policy' },
-    { name: 'Terms of Service', link: '/terms-of-service' }
+    { name: 'Terms of Use', link: '/terms-of-service' }
   ]
 
   const smLinks = [

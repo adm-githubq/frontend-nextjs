@@ -23,15 +23,26 @@ const getResourcePageData = async () => {
   return resourcePageData.json()
 }
 
-const getBlogPosts = async () => {
+//const getBlogPosts = async () => {
+//  const blogPostData = await fetch(
+//    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate=*&sort=createdAt:desc`,
+//    { next: { revalidate: 0 } }
+//  )
+//  if (!blogPostData.ok) {
+//    throw new Error('Failed to fetch resources page data')
+//  }
+//  return blogPostData.json()
+//}
+//
+const getSortedBlogPosts = async () => {
   const blogPostData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate=*&sort=createdAt:desc`,
+    `${process.env.NEXT_PUBLIC_API_URL}/resource-labels/4?populate[blog_posts][populate]=%2A`,
     { next: { revalidate: 0 } }
   )
   if (!blogPostData.ok) {
     throw new Error('Failed to fetch resources page data')
   }
-  return blogPostData.json()
+  return blogPostData.json().then(res => res.data.attributes.blog_posts);
 }
 
 const getResourcesCategoriesData = async () => {
@@ -58,13 +69,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
 }
 
 const ResourcesPage = async () => {
-  const resourcesPage = await getBlogPosts()
+  const resourcesPage = await getSortedBlogPosts()
   const resourcesCategories = await getResourcesCategoriesData()
 
   const featuredResourcesData =
-    resourcesPage && resourcesPage.data
+    resourcesPage && resourcesPage.data 
       ? resourcesPage.data.filter(
-          (item: any) => item.attributes.isFeatured === true
+          (item: any) => item.attributes?.isFeatured === true
         )
       : []
 
