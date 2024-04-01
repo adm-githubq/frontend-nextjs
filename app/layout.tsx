@@ -42,7 +42,10 @@ export default function RootLayout({
       <body className='flex flex-col min-h-screen overflow-x-hidden'>
         <DesktopMenu />
         <MobileMenu />
+        {/*
         {GA_ID ? <GoogleAnalytics gaId='G-KCQSH0BJR0' /> : null}
+        */}
+        {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
         {children}
         <Footer />
       </body>
