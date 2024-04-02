@@ -56,7 +56,7 @@ export const FeaturedSection = ({ featured }: ResourcesSectionProps) => {
             {featuredTitle}
           </h3>
           <div
-            className={`h-[200px] md:h-full overflow-hidden line-clamp-[9] md:line-clamp-[8]`}
+            className={`h-[200px] overflow-hidden line-clamp-[9] md:line-clamp-[8] md:h-full lg:h-auto lg:line-clamp-[15] xl:line-clamp-[10]`}
             ref={contentRef}
           />
           <div className='w-full flex justify-between items-center mt-auto relative'>
