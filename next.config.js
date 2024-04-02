@@ -3,6 +3,7 @@ process.env.HOSTNAME = '0.0.0.0'
 const nextConfig = {
   images: {
     domains: [
+      'loved-dinosaur-04d4cbbf22.strapiapp.com',
       process.env.API_HOST,
     ]
   },
