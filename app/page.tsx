@@ -20,7 +20,7 @@ const getHomePageData = async () => {
 const getResourcesData = async () => {
   const resourcesPageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate=PostTitle,Thumbnail,ResourceLabel&sort=createdAt:desc`,
-    { next: { revalidate: 1 } }
+    { next: { revalidate: 43200 } }
   )
   if (!resourcesPageData.ok) {
     throw new Error('Failed to fetch resources page data')
