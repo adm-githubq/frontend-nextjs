@@ -4,13 +4,21 @@ import { ResourceCategory } from '@/app/resources/page'
 import Search from '@/components/atoms/Search'
 import { getResourcesCategories } from '@/core/resources'
 import { ResourcesCategoriesDropdown } from '@/modules/ResourcesPage/ResourcesCategoriesDropdown'
+import algoliasearch from 'algoliasearch/lite'
 import { useSearchParams } from 'next/navigation'
 import { use, useEffect, useState } from 'react'
+import { InstantSearch } from 'react-instantsearch'
 
 interface ResourcesTitlesProps {
   categories: ResourceCategory[]
   data?: any
 }
+
+const searchClient = algoliasearch(
+  'UW17VULHQZ',
+  '3b57fe7f82911892d347c22628014b8a'
+)
+
 export const ResourcesCategories = ({ categories }: ResourcesTitlesProps) => {
   const [selectedCategory, setSelectedCategory] = useState<any>(null)
   const params = useSearchParams()
@@ -42,7 +50,9 @@ export const ResourcesCategories = ({ categories }: ResourcesTitlesProps) => {
       ) : null}
 
       <div className='z-9 flex-grow'>
+      <InstantSearch searchClient={searchClient} indexName='Q-ADR-Blogs'>
         <Search />
+      </InstantSearch>
       </div>
     </div>
   )

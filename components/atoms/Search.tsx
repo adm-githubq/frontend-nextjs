@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef, Key } from 'react'
 import Image from 'next/image'
 import { InlineForm } from '@/components/atoms/InlineForm'
-import { debounce, set } from 'lodash'
+import { debounce } from 'lodash'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
+import { useSearchBox, useInstantSearch } from 'react-instantsearch'
 
 interface SearchResults {
-  image: string
+  thumbnail: string
   title: string
-  contents: string
-  postAddress: string
+  content: string
+  slug: string
 }
 
 const highlightWord = (originalString: string, queryWord: string) => {
@@ -34,57 +35,20 @@ const highlightWord = (originalString: string, queryWord: string) => {
 }
 
 const Search = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('')
-  const [results, setResults] = useState<any>([])
-  const [loading, setLoading] = useState(false)
-  const [searchVisible, setSearchVisible] = useState(false)
+  const { query, refine } = useSearchBox()
+  const [searchQuery, setSearchQuery] = useState<string>(query)
   const resultsRef = useRef<HTMLDivElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
+  const { status, results } = useInstantSearch()
 
-  const handleSearchRequest = async (query: string) => {
-    const searchEngineUrl = process.env.NEXT_PUBLIC_SE_API_URL
-    const response = await fetch(
-      `${searchEngineUrl}/indexes/blog-post/search`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SE_API_KEY}`
-        },
-        body: JSON.stringify({
-          q: query,
-          limit: 100
-        })
-      }
-    )
-    setSearchVisible(true)
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const data = await response.json()
-
-    return data.hits.map((item: any) => ({
-      image: item.FeaturedImage.formats.small.url,
-      title: item.PostTitle,
-      contents: highlightWord(
-        item.PostContentEditor.replace(/(<([^>]+)>)/gi, ''),
-        query
-      ),
-      postAddress: item.PostAddress
-    }))
-  }
+  const handleSearchRequest = async (query: string) => refine(query)
 
   const debouncedSearchRef = useRef(
     debounce((query: string) => {
-      setLoading(true)
       handleSearchRequest(query).then(res => {
-        setResults(res)
-        setLoading(false)
         searchInputRef.current?.blur()
       })
-    }, 1000)
+    }, 500)
   )
 
   const handleQueryChange = (e: any) => {
@@ -95,14 +59,12 @@ const Search = () => {
     if (searchQuery.length >= 3) {
       debouncedSearchRef.current(searchQuery)
     }
-    setSearchVisible(false)
   }, [searchQuery])
 
   const handleSubmit = (data: any) => {
     searchInputRef.current?.blur()
     setSearchQuery(data.searchQuery)
     debouncedSearchRef.current(searchQuery)
-    setSearchVisible(true)
   }
 
   useEffect(() => {
@@ -111,7 +73,7 @@ const Search = () => {
         resultsRef.current &&
         !resultsRef.current.contains(event.target as Node)
       ) {
-        setSearchVisible(false)
+        setSearchQuery('')
       }
     }
 
@@ -136,7 +98,7 @@ const Search = () => {
         onChange={handleQueryChange}
       />
       <AnimatePresence>
-        {searchVisible ? (
+        {results && results.hits.length > 0 && searchQuery ? (
           <motion.div
             initial={{
               opacity: 0,
@@ -157,17 +119,17 @@ const Search = () => {
             ref={resultsRef}
             className={`absolute flex flex-col gap-4 bg-white w-full top-[4rem] rounded-2xl overflow-hidden p-8`}
           >
-            {results.map((result: SearchResults, index: Key) => (
+            {results.hits.map((result: SearchResults, index: Key) => (
               <Link
-                href={`/resources/${result.postAddress}`}
+                href={`/resources/${result.slug}`}
                 key={index}
                 className='flex flex-wrap gap-8 border-b-2  border-gray-200 pb-4 last:border-none'
               >
                 <Image
-                  src={result.image}
+                  src={'https://' + result.thumbnail.slice(7, undefined)}
                   alt={result.title}
-                  height={500}
-                  width={500}
+                  height={301}
+                  width={452}
                   className='object-cover object-left md:w-1/3 rounded-xl'
                 />
 
@@ -175,7 +137,9 @@ const Search = () => {
                   <h4 className='text-xl font-bold'>{result.title}</h4>
                   <div
                     className='mt-4'
-                    dangerouslySetInnerHTML={{ __html: result.contents }}
+                    dangerouslySetInnerHTML={{
+                      __html: result.content.slice(0, 140)
+                    }}
                   />
                 </div>
               </Link>
