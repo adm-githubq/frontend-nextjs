@@ -126,7 +126,7 @@ const Search = () => {
                 className='flex flex-wrap gap-8 border-b-2  border-gray-200 pb-4 last:border-none'
               >
                 <Image
-                  src={'https://' + result.thumbnail.slice(7, undefined)}
+                  src={'https://' + result.thumbnail.slice(8, undefined)}
                   alt={result.title}
                   height={301}
                   width={452}
