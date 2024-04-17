@@ -5,6 +5,7 @@ import { debounce } from 'lodash'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useSearchBox, useInstantSearch } from 'react-instantsearch'
+import { marked } from 'marked'
 
 interface SearchResults {
   thumbnail: string
@@ -138,7 +139,7 @@ const Search = () => {
                   <div
                     className='mt-4'
                     dangerouslySetInnerHTML={{
-                      __html: result.content.slice(0, 140)
+                      __html: marked.parse(highlightWord(result.content, searchQuery))
                     }}
                   />
                 </div>
