@@ -37,7 +37,7 @@ const getResourcePageData = async () => {
 const getSortedBlogPosts = async () => {
   const blogPostData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/resource-labels/4?populate[blog_posts][populate]=%2A`,
-    { next: { revalidate: 0 } }
+    { next: { revalidate: 43200 } }
   )
   if (!blogPostData.ok) {
     throw new Error('Failed to fetch resources page data')
@@ -48,7 +48,7 @@ const getSortedBlogPosts = async () => {
 const getResourcesCategoriesData = async () => {
   const resourcesCategoriesData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/categories`,
-    { next: { revalidate: 3600 } }
+    { next: { revalidate: 43200 } }
   )
   if (!resourcesCategoriesData.ok) {
     throw new Error('Failed to fetch resources categories data')

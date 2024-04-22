@@ -10,14 +10,6 @@ interface ResourceContentProps {
   resource: Resource
 }
 export const ResourceContent = ({ resource }: ResourceContentProps) => {
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.innerHTML = resource.content
-    }
-  }, [resource])
-
   return (
     <div className='w-full md:w-3/5 p-4 md:p-8 bg-white flex flex-col gap-4 rounded-3xl shadow-xl shadow-gray-300/60 mb-16'>
       <div className='flex justify-between items-center w-full relative'>
@@ -49,7 +41,7 @@ export const ResourceContent = ({ resource }: ResourceContentProps) => {
           className='rounded-xl border border-gray-200'
         />
       </div>
-      <div className={`mt-4 ${styles.content}`} ref={contentRef}></div>
+      <div className={`mt-4 ${styles.content}`} dangerouslySetInnerHTML={{ __html: resource.content }}></div>
     </div>
   )
 }

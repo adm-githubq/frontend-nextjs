@@ -14,7 +14,7 @@ export interface ResourceCategory {
 const getResourcePageData = async (PostAddress: string) => {
   const resourcesPageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
-    { next: { revalidate: 0 } }
+    { next: { revalidate: 43200 } }
   )
   if (!resourcesPageData.ok) {
     throw new Error('Failed to fetch resources page data')
@@ -25,7 +25,7 @@ const getResourcePageData = async (PostAddress: string) => {
 const getResourcesCategoriesData = async () => {
   const resourcesCategoriesData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/categories?populate=*`,
-    { next: { revalidate: 0 } }
+    { next: { revalidate: 43200 } }
   )
   if (!resourcesCategoriesData.ok) {
     throw new Error('Failed to fetch resources categories data')
@@ -49,13 +49,20 @@ export const generateMetadata = async ({
     openGraph: {
       images: [
         {
-          url: postData.data[0].attributes.FeaturedImage.data.attributes.formats.large
-               ? postData.data[0].attributes.FeaturedImage.data.attributes.formats.large.url
-               : postData.data[0].attributes.FeaturedImage.data.attributes.formats.medium
-               ? postData.data[0].attributes.FeaturedImage.data.attributes.formats.medium.url
-               : postData.data[0].attributes.FeaturedImage.data.attributes.formats.small
-               ? postData.data[0].attributes.FeaturedImage.data.attributes.formats.small.url
-               : postData?.data[0]?.attributes?.FeaturedImage?.data?.attributes?.url,
+          url: postData.data[0].attributes.FeaturedImage.data.attributes.formats
+            .large
+            ? postData.data[0].attributes.FeaturedImage.data.attributes.formats
+                .large.url
+            : postData.data[0].attributes.FeaturedImage.data.attributes.formats
+                .medium
+            ? postData.data[0].attributes.FeaturedImage.data.attributes.formats
+                .medium.url
+            : postData.data[0].attributes.FeaturedImage.data.attributes.formats
+                .small
+            ? postData.data[0].attributes.FeaturedImage.data.attributes.formats
+                .small.url
+            : postData?.data[0]?.attributes?.FeaturedImage?.data?.attributes
+                ?.url,
           width: 1200,
           height: 600,
           alt: postData?.data[0]?.attributes?.PostTitle,
@@ -73,6 +80,9 @@ const ResourcesPage = async ({
 }) => {
   const resourceData = await getResourcePageData(params.PostAddress)
   const resourcesCategories = await getResourcesCategoriesData()
+  const resource = getSingleResource(resourceData.data[0], {
+    fullContent: true
+  })
   return (
     <div className='flex relative flex-col items-center justify-center gap-8 w-full px-4 md:px-24 sm:pt-[200px] py-12 md:py-40 overflow-x-hidden '>
       <div className='absolute -z-10 -top-[30vh] h-screen w-full scale-150'>
@@ -88,11 +98,7 @@ const ResourcesPage = async ({
           <ResourcesCategories categories={resourcesCategories.data} />
         </div>
         <section className='w-full flex items-center justify-center'>
-          <ResourceContent
-            resource={getSingleResource(resourceData.data[0], {
-              fullContent: true
-            })}
-          />
+          <ResourceContent resource={resource} />
         </section>
         <section className='w-full md:w-4/5 flex items-center justify-center'>
           <NewsletterCard />
