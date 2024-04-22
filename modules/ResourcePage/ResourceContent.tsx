@@ -4,6 +4,7 @@ import { ShareButton } from '@/components/ShareButton'
 import { Resource } from '@/core/resources'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import styles from './ResourceContent.module.css';
 
 interface ResourceContentProps {
   resource: Resource
@@ -48,7 +49,7 @@ export const ResourceContent = ({ resource }: ResourceContentProps) => {
           className='rounded-xl border border-gray-200'
         />
       </div>
-      <div className='mt-4' ref={contentRef}></div>
+      <div className={`mt-4 ${styles.content}`} ref={contentRef}></div>
     </div>
   )
 }

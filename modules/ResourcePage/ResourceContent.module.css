@@ -1,0 +1,15 @@
+.content {
+    font-family: Arial, sans-serif;
+}
+
+.content p {
+    font-family: Arial, sans-serif !important;
+    font-size: 11pt;
+    line-height: 1.38 !important;
+}
+
+.content p span {
+    font-family: Arial, sans-serif !important;
+    font-size: 11pt;
+    line-height: 1.38 !important;
+}
