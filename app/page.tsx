@@ -9,7 +9,6 @@ import { ToolsSection } from '@/modules/HomePage/ToolsSection'
 const getHomePageData = async () => {
   const homePageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage`,
-    { next: { revalidate: 86400 } }
   )
   if (!homePageData.ok) {
     throw new Error('Failed to fetch home page data')
@@ -20,7 +19,6 @@ const getHomePageData = async () => {
 const getResourcesData = async () => {
   const resourcesPageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?populate=PostTitle,Thumbnail,ResourceLabel&sort=createdAt:desc`,
-    { next: { revalidate: 86400 } }
   )
   if (!resourcesPageData.ok) {
     throw new Error('Failed to fetch resources page data')
