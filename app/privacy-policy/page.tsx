@@ -4,7 +4,6 @@ import HeaderBackground from '@/public/HeaderBackground_v2.svg'
 const getPrivacyPolicyPageData = async () => {
   const privacyPolicyPageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/privacy-policy`,
-    { next: { revalidate: 0 } }
   )
   if (!privacyPolicyPageData.ok) {
     throw new Error('Failed to fetch home page data')

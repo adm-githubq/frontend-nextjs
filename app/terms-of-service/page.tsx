@@ -4,7 +4,6 @@ import HeaderBackground from '@/public/HeaderBackground_v2.svg'
 const getTermsOfServicePageData = async () => {
   const termsOfServicePageData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/terms-of-service`,
-    { next: { revalidate: 0 } }
   )
   if (!termsOfServicePageData.ok) {
     throw new Error('Failed to fetch home page data')

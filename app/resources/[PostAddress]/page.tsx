@@ -6,6 +6,7 @@ import { ResourcesCategories } from '@/modules/ResourcesPage/ResourcesCategories
 import HeaderBackground from '@/public/HeaderBackground_v2.svg'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import { Suspense } from 'react'
 
 export interface ResourceCategory {
   id: string
@@ -13,8 +14,7 @@ export interface ResourceCategory {
 }
 const getResourcePageData = async (PostAddress: string) => {
   const resourcesPageData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`,
-    { next: { revalidate: 43200 } }
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?filters[PostAddress][$eq]=${PostAddress}&populate=*`
   )
   if (!resourcesPageData.ok) {
     throw new Error('Failed to fetch resources page data')
@@ -24,8 +24,7 @@ const getResourcePageData = async (PostAddress: string) => {
 
 const getResourcesCategoriesData = async () => {
   const resourcesCategoriesData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/categories?populate=*`,
-    { next: { revalidate: 43200 } }
+    `${process.env.NEXT_PUBLIC_API_URL}/categories?populate=*`
   )
   if (!resourcesCategoriesData.ok) {
     throw new Error('Failed to fetch resources categories data')
@@ -95,7 +94,9 @@ const ResourcesPage = async ({
       </div>
       <div className='w-full flex flex-col justify-center items-center gap-8'>
         <div className='w-[95%] md:w-4/5 flex gap-8 items-center mb-4 md:mb-12 relative z-10'>
+        <Suspense fallback={(<div></div>)}>
           <ResourcesCategories categories={resourcesCategories.data} />
+          </Suspense>
         </div>
         <section className='w-full flex items-center justify-center'>
           <ResourceContent resource={resource} />
@@ -109,3 +110,22 @@ const ResourcesPage = async ({
 }
 
 export default ResourcesPage
+
+type StaticPost = {
+  id: number
+  attributes: {
+    PostAddress: string
+  }
+}
+export async function generateStaticParams() {
+  const postsReq = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/blog-posts?fields[0]=PostAddress`
+  )
+  if (!postsReq.ok) {
+    throw new Error('Failed to fetch resources page data')
+  }
+  const posts = await postsReq.json()
+  return posts.data.map((post: StaticPost) => ({
+    PostAddress: post.attributes.PostAddress
+  }))
+}
