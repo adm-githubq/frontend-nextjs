@@ -31,7 +31,6 @@ export const generateImageMetadata = async ({
 
 export default async function Image({
   params,
-  id
 }: {
   params: { PostAddress: string }
   id: number
