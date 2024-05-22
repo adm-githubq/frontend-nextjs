@@ -24,6 +24,8 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
         fill
         objectFit='cover'
         objectPosition='bottom'
+        loading='eager'
+        decoding='sync'
         className=' left-0 right-0 -z-10 scale-110 -translate-y-[5vh]'
       />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[1440px]'>
@@ -56,6 +58,8 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
             width={650}
             objectPosition='right'
             className='absolute -z-10'
+            loading='eager'
+            decoding='sync'
           />
           <Image
             src={headingData.headingImage}
@@ -63,6 +67,8 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
             height={650}
             width={650}
             objectPosition='center'
+            loading='eager'
+            decoding='sync'
           />
         </div>
       </div>
