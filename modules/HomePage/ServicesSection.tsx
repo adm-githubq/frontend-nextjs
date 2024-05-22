@@ -18,7 +18,13 @@ interface ServiceSectionProps {
         }
       }
     }
-    ServiceAddress?: string
+    Service?: {
+      data: {
+        attributes: {
+          slug: string
+        }
+      }
+    }
   }[]
 }
 
@@ -42,7 +48,7 @@ export const ServicesSection: React.FC<ServiceSectionProps> = ({
         <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6'>
           {tiles.map(tile => (
             <Link
-              href={`/services/${tile.ServiceAddress}`}
+              href={`/services/${tile.Service?.data.attributes.slug ?? ''}`}
               key={tile.id}
               className='bg-white w-full  flex flex-col justify-between p-6 pt-4 items-center rounded-2xl gap-4 hover:scale-105 hover:drop-shadow-md duration-300 ease-in-out'
             >

@@ -25,7 +25,13 @@ export interface OtherService {
       }
     }
   }
-  link?: any
+  Service?: {
+    data: {
+      attributes: {
+        slug: string
+      }
+    }
+  }
 }
 
 export const getService = (data: any): Service => {

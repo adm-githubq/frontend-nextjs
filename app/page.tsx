@@ -8,7 +8,7 @@ import { ToolsSection } from '@/modules/HomePage/ToolsSection'
 
 const getHomePageData = async () => {
   const homePageData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage`,
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage,Tiles.Service,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage`,
   )
   if (!homePageData.ok) {
     throw new Error('Failed to fetch home page data')
