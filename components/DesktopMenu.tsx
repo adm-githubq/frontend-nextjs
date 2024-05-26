@@ -9,7 +9,19 @@ import { CalendlyWrapper } from './Calendly/CalendlyDynamic'
 import { ServicesDropdown } from './ServicesDropdown'
 import CalendlyScript from './Calendly/CalendlyScript'
 
-const DesktopMenu: React.FC = () => {
+type Props = {
+  services_menu_items: {
+    data: {
+      id: number
+      attributes: {
+        slug: string
+        menu_text: string
+      }
+    }[]
+  }
+}
+
+const DesktopMenu: React.FC<Props> = props => {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -43,7 +55,10 @@ const DesktopMenu: React.FC = () => {
         </Link>
         <ul className='flex items-center justify-around gap-16 py-4 pb-4'>
           <li>
-            <ServicesDropdown menuItemStyle={menuItemStyle} />
+            <ServicesDropdown
+              menuItemStyle={menuItemStyle}
+              services_menu_items={props.services_menu_items}
+            />
           </li>
           <li>
             <Link href='/about'>

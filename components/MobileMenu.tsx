@@ -10,7 +10,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-const MobileMenu = () => {
+
+type Props = {
+  services_menu_items: {
+    data: {
+      id: number
+      attributes: {
+        slug: string
+        menu_text: string
+      }
+    }[]
+  }
+}
+
+const MobileMenu = (props: Props) => {
   const [navOpen, setNavOpen] = useState(false)
 
   const { push } = useRouter()
@@ -88,6 +101,7 @@ const MobileMenu = () => {
                 <ServicesDropdown
                   menuItemStyle={menuItemStyle}
                   onMenuSelect={handleNavClose}
+                  services_menu_items={props.services_menu_items}
                 />
               </li>
               <li onClick={() => handleMenuSelect('/about')}>

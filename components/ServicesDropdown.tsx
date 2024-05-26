@@ -8,11 +8,21 @@ import Link from 'next/link'
 interface Props {
   menuItemStyle: string
   onMenuSelect?: (pathname: string) => void
+  services_menu_items: {
+    data: {
+      id: number
+      attributes: {
+        slug: string
+        menu_text: string
+      }
+    }[]
+  }
 }
 
 export const ServicesDropdown: React.FC<Props> = ({
   menuItemStyle,
-  onMenuSelect
+  onMenuSelect,
+  services_menu_items
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -64,86 +74,34 @@ export const ServicesDropdown: React.FC<Props> = ({
               className='md:absolute md:top-14 md:left-0 z-20'
             >
               <ul className=' flex flex-col items-start md:justify-center gap-6 md:gap-8 bg-white w-full px-4 pt-4 md:p-8 md:rounded-md md:shadow-md md:w-[400px]'>
-                <li
-                  onClick={
-                    onMenuSelect
-                      ? () => onMenuSelect('/services/coparenting')
-                      : () => {}
-                  }
-                >
-                  <Link
-                    className={
-                      onMenuSelect
-                        ? 'pointer-events: none; tab-index: -1; aria-disabled: true'
-                        : ''
-                    }
-                    href='/services/co-parenting'
-                  >
-                    <p className='nav-item text-gray-700 hover:text-[#0D9BFC] after:bg-gradient-primary [&_svg]:stroke-gray-900 [&_svg]:hover:stroke-primary'>
-                      Synchronous CoParenting
-                    </p>
-                  </Link>
-                </li>
-                <li
-                  onClick={
-                    onMenuSelect
-                      ? () => onMenuSelect('/services/divorce')
-                      : () => {}
-                  }
-                >
-                  <Link
-                    className={
-                      onMenuSelect
-                        ? 'pointer-events: none; tab-index: -1; aria-disabled: true'
-                        : ''
-                    }
-                    href='/services/divorce'
-                  >
-                    <p className='nav-item text-gray-700 hover:text-[#0D9BFC] after:bg-gradient-primary [&_svg]:stroke-gray-900 [&_svg]:hover:stroke-primary'>
-                      Divorce + Separation Coaching
-                    </p>
-                  </Link>
-                </li>
-                <li
-                  onClick={
-                    onMenuSelect
-                      ? () => onMenuSelect('/services/mediation')
-                      : () => {}
-                  }
-                >
-                  <Link
-                    className={
-                      onMenuSelect
-                        ? 'pointer-events: none; tab-index: -1; aria-disabled: true'
-                        : ''
-                    }
-                    href='/services/mediation'
-                  >
-                    <p className='nav-item text-gray-700 hover:text-[#0D9BFC] after:bg-gradient-primary [&_svg]:stroke-gray-900 [&_svg]:hover:stroke-primary'>
-                      360° Mediation
-                    </p>
-                  </Link>
-                </li>
-                <li
-                  onClick={
-                    onMenuSelect
-                      ? () => onMenuSelect('/services/coaching')
-                      : () => {}
-                  }
-                >
-                  <Link
-                    className={
-                      onMenuSelect
-                        ? 'pointer-events: none; tab-index: -1; aria-disabled: true'
-                        : ''
-                    }
-                    href='/services/coaching'
-                  >
-                    <p className='nav-item text-gray-700 hover:text-[#0D9BFC] after:bg-gradient-primary [&_svg]:stroke-gray-900 [&_svg]:hover:stroke-primary'>
-                      Coaching for Professionals
-                    </p>
-                  </Link>
-                </li>
+                {services_menu_items.data && services_menu_items.data.length > 0
+                  ? services_menu_items.data.map(item => (
+                      <li
+                        onClick={
+                          onMenuSelect
+                            ? () =>
+                                onMenuSelect(
+                                  `/services/${item.attributes.slug}`
+                                )
+                            : () => {}
+                        }
+                        key={item.attributes.slug}
+                      >
+                        <Link
+                          className={
+                            onMenuSelect
+                              ? 'pointer-events: none; tab-index: -1; aria-disabled: true'
+                              : ''
+                          }
+                          href={`/services/${item.attributes.slug}`}
+                        >
+                          <p className='nav-item text-gray-700 hover:text-[#0D9BFC] after:bg-gradient-primary [&_svg]:stroke-gray-900 [&_svg]:hover:stroke-primary'>
+                            {item.attributes.menu_text}
+                          </p>
+                        </Link>
+                      </li>
+                    ))
+                  : null}
               </ul>
             </motion.div>
           ) : null}

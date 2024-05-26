@@ -26,11 +26,26 @@ export async function generateMetadata() {
   }
 }
 
-export default function RootLayout({
+type StaticService = {
+  id: number
+  attributes: {
+    slug: string
+  }
+}
+
+
+export default async function RootLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+
+  const site_settings = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/site-setting?populate[services_menu_items][fields][0]=slug&populate[services_menu_items][fields][1]=menu_text`)
+      .then(res => res.json())
+      .catch(() => {
+        throw new Error('Failed to fetch resources page data')
+      })
+
   return (
     <html lang='en'>
       <head>
@@ -65,8 +80,8 @@ export default function RootLayout({
           rethink_sans.className
         ].join(', ')}
       >
-        <DesktopMenu />
-        <MobileMenu />
+        <DesktopMenu services_menu_items={site_settings.data.attributes.services_menu_items} />
+        <MobileMenu services_menu_items={site_settings.data.attributes.services_menu_items} />
         {/*
         {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
         */}
