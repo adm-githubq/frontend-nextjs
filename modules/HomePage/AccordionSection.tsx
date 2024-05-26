@@ -27,7 +27,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         <div className='w-full md:min-w-[300px] md:max-w-[564px]'>
           <h2 className='font-bold  text-2xl text-center md:text-left md:text-4xl leading-[48px] md:leading-[72px] max-w-[564px] mb-8'>
             {sectionTitle.split(',')[0]}
-            {','}
+            {sectionTitle.split(',').length > 1 ? ',' : null}
             {<br />}
             {sectionTitle.split(',')[1]}
           </h2>
