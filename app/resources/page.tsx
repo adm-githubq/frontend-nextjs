@@ -83,7 +83,7 @@ const ResourcesPage = async () => {
       : []
 
   const resourcesPageData =
-    resourcesPage && resourcesPage.data ? resourcesPage.data : []
+    resourcesPage && resourcesPage.data ? resourcesPage.data.reverse() : []
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
