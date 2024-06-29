@@ -5,6 +5,8 @@ import MobileMenu from '@/components/MobileMenu'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Partytown } from '@builder.io/partytown/react'
 import { Rethink_Sans } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react';
+
 
 const rethink_sans = Rethink_Sans({
   display: 'swap',
@@ -87,6 +89,7 @@ export default async function RootLayout({
         */}
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
