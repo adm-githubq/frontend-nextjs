@@ -11,7 +11,7 @@ const getResourcePageData = async (PostAddress: string) => {
   return resourcesPageData.json()
 }
 
-export const generateImageMetadata = async ({
+const generateImageMetadata = async ({
   params
 }: {
   params: { PostAddress: string }
@@ -19,36 +19,55 @@ export const generateImageMetadata = async ({
   const image = await getResourcePageData(params.PostAddress)
   const featuredImage = {
     url: image.data[0].attributes.FeaturedImage.data.attributes.formats.large
-        ? image.data[0].attributes.FeaturedImage.data.attributes.formats.large.url
-        : image?.data[0]?.attributes?.FeaturedImage?.data?.attributes?.url,
+      ? image.data[0].attributes.FeaturedImage.data.attributes.formats.large.url
+      : image?.data[0]?.attributes?.FeaturedImage?.data?.attributes?.url,
     size: { width: 1200, height: 600 },
     alt: image.data[0].attributes.PostTitle,
     contentType: 'image/png'
   }
 
-  return [featuredImage]
+  return featuredImage
 }
 
+export const size = {
+  width: 1200,
+  height: 600
+}
+
+export const contentType = 'image/png'
+
 export default async function Image({
-  params,
+  params
 }: {
   params: { PostAddress: string }
   id: number
 }) {
-  const data = await getResourcePageData(params.PostAddress)
-  const text = data.data[0].attributes.PostTitle
+  const strapiImage = await generateImageMetadata({ params })
+  //const data = await getResourcePageData(params.PostAddress)
+  //const text = data.data[0].attributes.PostTitle
 
   return new ImageResponse(
     (
       <div
-        style={
-          {
-            // ...
-          }
-        }
+        style={{
+          width: '1200px',
+          height: '600px',
+          display: 'flex'
+        }}
       >
-        {text}
+        <img
+          src={strapiImage.url}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
       </div>
-    )
+    ),
+    {
+      width: 1200,
+      height: 600
+    }
   )
 }

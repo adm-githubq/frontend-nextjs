@@ -63,7 +63,6 @@ const getSortedBlogPosts = async () => {
       encodeValuesOnly: true
     }
   )
-  console.log(query)
   const blogPostData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/resource-labels/4?${query}`
   )
