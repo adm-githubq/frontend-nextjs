@@ -7,6 +7,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { defaultMetadata } from '@/core/metadata'
+import qs from 'qs'
 
 export interface ResourceCategory {
   id: string
@@ -35,18 +36,46 @@ const getResourcePageData = async () => {
 //}
 //
 const getSortedBlogPosts = async () => {
+  const query = qs.stringify(
+    {
+      populate: {
+        blog_posts: {
+          fields: [
+            'isFeatured',
+            'PostAddress',
+            'PostContentEditor',
+            'createdAt',
+            'updatedAt',
+            'publishedAt',
+            'PostTitle',
+          ],
+          populate: [
+            'FeaturedImage',
+            'FeaturedImage',
+            'categories',
+            'Thumbnail',
+            'ResourceLabel',
+          ]
+        }
+      }
+    },
+    {
+      encodeValuesOnly: true
+    }
+  )
+  console.log(query)
   const blogPostData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/resource-labels/4?populate[blog_posts][populate]=%2A`,
+    `${process.env.NEXT_PUBLIC_API_URL}/resource-labels/4?${query}`
   )
   if (!blogPostData.ok) {
     throw new Error('Failed to fetch resources page data')
   }
-  return blogPostData.json().then(res => res.data.attributes.blog_posts);
+  return blogPostData.json().then(res => res.data.attributes.blog_posts)
 }
 
 const getResourcesCategoriesData = async () => {
   const resourcesCategoriesData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/categories`,
+    `${process.env.NEXT_PUBLIC_API_URL}/categories`
   )
   if (!resourcesCategoriesData.ok) {
     throw new Error('Failed to fetch resources categories data')
@@ -71,7 +100,7 @@ const ResourcesPage = async () => {
   const resourcesCategories = await getResourcesCategoriesData()
 
   const featuredResourcesData =
-    resourcesPage && resourcesPage.data 
+    resourcesPage && resourcesPage.data
       ? resourcesPage.data.filter(
           (item: any) => item.attributes?.isFeatured === true
         )
@@ -83,7 +112,7 @@ const ResourcesPage = async () => {
       : []
 
   const resourcesPageData =
-    resourcesPage && resourcesPage.data ? resourcesPage.data.reverse() : []
+    resourcesPage && resourcesPage.data ? resourcesPage.data.filter(x => x.attributes.publishedAt !== null).reverse() : []
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
