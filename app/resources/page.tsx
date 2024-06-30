@@ -112,7 +112,7 @@ const ResourcesPage = async () => {
       : []
 
   const resourcesPageData =
-    resourcesPage && resourcesPage.data ? resourcesPage.data.filter(x => x.attributes.publishedAt !== null).reverse() : []
+    resourcesPage && resourcesPage.data ? resourcesPage.data.filter((x: any) => x.attributes.publishedAt !== null).reverse() : []
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
