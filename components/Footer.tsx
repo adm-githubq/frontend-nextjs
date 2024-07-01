@@ -62,7 +62,7 @@ const Footer = async () => {
 
   return (
     <div className='bg-[url("/FooterBackground.svg")] bg-contain md:bg-cover bg-no-repeat md:h-[510px] w-full h-full mt-auto flex flex-col md:flex-row justify-center md:overflow-hidden'>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 w-full md:max-w-[1440px] h-full md:h-[400px] md:overflow-hidden mt-24 md:mt-36 pt-6 pb-24 md:py-6 bg-[#212427]'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 w-full md:max-w-[1440px] h-full md:h-[400px] md:overflow-hidden mt-24 md:mt-36 pt-6 pb-24 md:py-6 bg-[#212427] pr-6'>
         <div className='flex flex-col items-center md:items-start gap-6 w-full px-6 md:px-24'>
           <Image src={LogoWhite} alt='logo' height={48} width={222} />
           <p className='text-white italic text-center tracking-tight leading-6 md:text-left md:w-[444px]'>
