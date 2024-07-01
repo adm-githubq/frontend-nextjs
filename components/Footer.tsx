@@ -6,13 +6,29 @@ import LogoWhite from '@/public/Quantum-ADR-white.svg'
 import { LinkedinIcon } from '@/public/icons/LinkedinIcon'
 import { InstagramIcon } from '@/public/icons/InstagramIcon'
 import { FacebookIcon } from '@/public/icons/FacebookIcon'
+import { TwitterIcon } from '@/components/atoms/TwitterIcon'
+import qs from 'qs'
 
-const Footer = () => {
-  const description = `Quantum™ ADR provides Coaching and Mediation services. 
-  Our services are not a substitute for legal advice or therapy. Quantum™ ADR is not a law firm and does not provide legal services, psychotherapy, or marriage and family therapy. Contacting 
-  or engaging Quantum™ ADR will not create an attorney-client, psychologist-patient, or therapist-patient relationship.`
+const Footer = async () => {
+  const footerQuery = qs.stringify(
+    {
+      populate: ['footer_socials']
+    },
+    {
+      encodeValuesOnly: true
+    }
+  )
 
-  const menuItemStyle = 'text-white after:bg-white [&_svg]:stroke-white [&_svg]:hover:stroke-gray-700'
+  const {
+    data: {
+      attributes: { footer_socials, footer_disclaimer }
+    }
+  } = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/site-setting?${footerQuery}`
+  ).then(res => res.json())
+
+  const menuItemStyle =
+    'text-white after:bg-white [&_svg]:stroke-white [&_svg]:hover:stroke-gray-700'
 
   const menuLinks = [
     { name: 'Services', link: '/#services' },
@@ -25,37 +41,44 @@ const Footer = () => {
     { name: 'Terms of Use', link: '/terms-of-service' }
   ]
 
-  const smLinks = [
-    {
+  const smLinks = {
+    linkedin: {
       name: 'LinkedIn',
-      link: 'https://www.linkedin.com/company/quantum-adr/',
       icon: <LinkedinIcon />
     },
-    {
+    instagram: {
       name: 'Instagram',
-      link: 'https://www.instagram.com/quantum.adr',
       icon: <InstagramIcon />
     },
-    {
+    facebook: {
       name: 'Facebook',
-      link: 'https://www.facebook.com/quantumadr',
       icon: <FacebookIcon />
+    },
+    twitter: {
+      name: 'Twitter',
+      icon: <TwitterIcon />
     }
-  ]
+  }
 
   return (
     <div className='bg-[url("/FooterBackground.svg")] bg-contain md:bg-cover bg-no-repeat md:h-[510px] w-full h-full mt-auto flex flex-col md:flex-row justify-center md:overflow-hidden'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 w-full md:max-w-[1440px] h-full md:h-[400px] md:overflow-hidden mt-24 md:mt-36 pt-6 pb-24 md:py-6 bg-[#212427]'>
         <div className='flex flex-col items-center md:items-start gap-6 w-full px-6 md:px-24'>
           <Image src={LogoWhite} alt='logo' height={48} width={222} />
-          <p className='text-white italic text-center tracking-tight leading-6 md:text-left md:w-[444px]'>{description}</p>
+          <p className='text-white italic text-center tracking-tight leading-6 md:text-left md:w-[444px]'>
+            {footer_disclaimer}
+          </p>
         </div>
         <div className='flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-16 w-full'>
           <div className='flex flex-col items-center md:items-start gap-4 md:gap-6 w-full md:w-1/2'>
             <h3 className='text-white font-bold text-lg'>Menu</h3>
             {menuLinks.map(item => (
               <Link key={item.name} href={item.link}>
-                <span className={`${menuItemStyle} nav-item !font-light !text-base`}>{item.name}</span>
+                <span
+                  className={`${menuItemStyle} nav-item !font-light !text-base`}
+                >
+                  {item.name}
+                </span>
               </Link>
             ))}
           </div>
@@ -63,21 +86,28 @@ const Footer = () => {
             <h3 className='text-white font-bold text-lg'>Other</h3>
             {otherLinks.map(item => (
               <Link key={item.name} href={item.link}>
-                <span className={`${menuItemStyle} nav-item !font-light !text-base`}>{item.name}</span>
+                <span
+                  className={`${menuItemStyle} nav-item !font-light !text-base`}
+                >
+                  {item.name}
+                </span>
               </Link>
             ))}
           </div>
           <div className='flex flex-col items-center md:items-start gap-4 md:gap-6 w-full md:w-1/2'>
-            <div className='flex gap-4'>
-              {smLinks.map(item => (
+            <div className='flex gap-4 items-center'>
+              {footer_socials.map((item: any) => (
                 <Link
-                  key={item.name}
-                  href={item.link}
+                  key={item.platform}
+                  href={item.url}
                   target='_blank'
                   rel='noreferrer'
                   className={`${menuItemStyle} nav-item !font-light !text-base p-1`}
                 >
-                  {item.icon}
+                  {
+                    // @ts-ignore
+                    smLinks[item.platform as string].icon
+                  }
                 </Link>
               ))}
             </div>
