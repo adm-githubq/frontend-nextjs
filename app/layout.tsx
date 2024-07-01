@@ -21,10 +21,14 @@ export async function generateMetadata() {
   const title = 'Quantum ADR'
   const description =
     'Reshaping divorce and coparenting outcomes with conscious uncoupling'
+  const metadataBase = process.env.NODE_ENV === 'production'
+    ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+    : undefined
 
   return {
     title,
-    description
+    description,
+    metadataBase,
   }
 }
 

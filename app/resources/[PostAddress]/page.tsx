@@ -39,36 +39,16 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const postData = await getResourcePageData(params.PostAddress)
   const title = defaultMetadata.title
+  const metadataBase = process.env.NODE_ENV === 'production'
+    ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+    : undefined
   const description =
     postData?.data[0]?.attributes?.PostTitle || defaultMetadata.description
 
   return {
     title,
     description,
-    openGraph: {
-//      images: [
-//        {
-//          url: postData.data[0].attributes.FeaturedImage.data.attributes.formats
-//            .large
-//            ? postData.data[0].attributes.FeaturedImage.data.attributes.formats
-//                .large.url
-//            : postData.data[0].attributes.FeaturedImage.data.attributes.formats
-//                .medium
-//            ? postData.data[0].attributes.FeaturedImage.data.attributes.formats
-//                .medium.url
-//            : postData.data[0].attributes.FeaturedImage.data.attributes.formats
-//                .small
-//            ? postData.data[0].attributes.FeaturedImage.data.attributes.formats
-//                .small.url
-//            : postData?.data[0]?.attributes?.FeaturedImage?.data?.attributes
-//                ?.url,
-//          width: 1200,
-//          height: 600,
-//          alt: postData?.data[0]?.attributes?.PostTitle,
-//          type: 'image/png'
-//        }
-//      ]
-    }
+    metadataBase
   }
 }
 
@@ -94,8 +74,8 @@ const ResourcesPage = async ({
       </div>
       <div className='w-full flex flex-col justify-center items-center gap-8'>
         <div className='w-[95%] md:w-4/5 flex gap-8 items-center mb-4 md:mb-12 relative z-10'>
-        <Suspense fallback={(<div></div>)}>
-          <ResourcesCategories categories={resourcesCategories.data} />
+          <Suspense fallback={<div></div>}>
+            <ResourcesCategories categories={resourcesCategories.data} />
           </Suspense>
         </div>
         <section className='w-full flex items-center justify-center'>
