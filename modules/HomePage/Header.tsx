@@ -11,6 +11,7 @@ interface HeadingProps {
     headingDescription: string
     headingButtonSecondary: string
     headingButtonPrimary: string
+    headingTagLines: { content: string }[] | null
     headingImage: string
   }
 }
@@ -37,6 +38,14 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
             <h2 className='text-white font-bold text-2xl'>
               {headingData.HeaderTitle}
             </h2>
+
+            {headingData.headingTagLines ? (
+              <div className='flex gap-x-12 gap-y-2 text-xl text-white font-bold flex-wrap'>
+                {headingData.headingTagLines.map(item => (
+                  <h3 className='text-nowrap'>{item.content}</h3>
+                ))}
+              </div>
+            ) : null}
 
             <p className='text-lg text-white whitespace-pre-wrap'>
               {headingData.headingDescription}

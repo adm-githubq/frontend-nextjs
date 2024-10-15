@@ -27,6 +27,16 @@ const FetchOtherServicesData = async () => {
   return OtherServicesData.json()
 }
 
+const getHomePageData = async () => {
+  const homePageData = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=headerTagLines`,
+  )
+  if (!homePageData.ok) {
+    throw new Error('Failed to fetch home page data')
+  }
+  return homePageData.json()
+}
+
 export const generateMetadata = async ({
   params
 }: {
@@ -44,6 +54,7 @@ export const generateMetadata = async ({
 }
 
 const ServicePage = async ({ params }: { params: { slug: string } }) => {
+  const homePage = await getHomePageData()
   const ServicePageData = await FetchServiceData(params.slug)
 
   const PageData: Service = {
@@ -90,10 +101,19 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
           className=' left-0 right-0 -z-10 scale-150 -translate-y-[5vh]'
         />
         <div className='grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 max-w-[1440px]'>
-          <div className='flex flex-col justify-center md:justify-start gap-12 items-start min-w-[300px]'>
+          <div className='flex flex-col justify-center md:justify-start gap-1 items-start min-w-[300px]'>
             <h1 className='text-[32px] leading-[48px] font-bold text-white'>
               {PageData.heading}
             </h1>
+
+            {homePage.data.attributes.headerTagLines ? (
+              <div className='flex gap-x-12 gap-y-2 text-xl text-white font-bold flex-wrap pb-6'>
+                {homePage.data.attributes.headerTagLines.map((item: { content: string }) => (
+                  <h3 className='text-nowrap'>{item.content}</h3>
+                ))}
+              </div>
+            ) : null}
+
             <p className='text-lg text-white whitespace-pre-wrap'>
               {PageData.subheading}
             </p>

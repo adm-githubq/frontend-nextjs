@@ -8,7 +8,7 @@ import { ToolsSection } from '@/modules/HomePage/ToolsSection'
 
 const getHomePageData = async () => {
   const homePageData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage,Tiles.Service,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage`,
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=Tiles.TileImage,Tiles.Service,SecondSectionExpandable,BubblesWithWords,Testimonials,HeadingImage,headerTagLines`,
   )
   if (!homePageData.ok) {
     throw new Error('Failed to fetch home page data')
@@ -35,6 +35,7 @@ const Home = async () => {
     headingDescription: homePage.data.attributes.headingDescription,
     headingButtonSecondary: homePage.data.attributes.headingButtonSecondary,
     headingButtonPrimary: homePage.data.attributes.headingButtonPrimary,
+    headingTagLines: homePage.data.attributes.headerTagLines,
     headingImage:
       homePage.data.attributes.HeadingImage.data.attributes.url ||
       homePage.data.attributes.HeadingImage.data.attributes.formats.small.url

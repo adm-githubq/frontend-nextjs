@@ -43,7 +43,18 @@ export const generateMetadata = async (): Promise<Metadata> => {
   }
 }
 
+const getHomePageData = async () => {
+  const homePageData = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=headerTagLines`,
+  )
+  if (!homePageData.ok) {
+    throw new Error('Failed to fetch home page data')
+  }
+  return homePageData.json()
+}
+
 const AboutPage = async () => {
+  const homePage = await getHomePageData()
   const aboutPage = await getAboutPageData()
   const testimonialsData = await getTestimonialsData()
 
@@ -64,6 +75,7 @@ const AboutPage = async () => {
     description: aboutPage.data.attributes.Person2Description
   }
 
+console.log(homePage.data.attributes);
   return (
     <main className='flex flex-col items-center overflow-x-hidden '>
       <section>
@@ -76,9 +88,18 @@ const AboutPage = async () => {
             className='absolute left-0 right-0 -z-10 scale-110 lg:scale-100'
           />
           <div className='max-w-[2440px]'>
-            <h1 className='text-white font-bold pt-0 pb-8 md:pt-12 md:pb-12 mt-[60px] text-[32px] leading-[48px] max-w-[80%]'>
+            <h1 className='text-white font-bold pt-0 pb-5 md:pt-12 mt-[60px] text-[32px] leading-[48px] max-w-[80%]'>
               {aboutPage.data.attributes.Heading}
             </h1>
+
+            {homePage.data.attributes.headerTagLines ? (
+              <div className='flex gap-x-12 gap-y-2 text-xl text-white font-bold md:pb-8 pb-6 flex-wrap'>
+                {homePage.data.attributes.headerTagLines.map((item: { content: string }) => (
+                  <h3 className='text-nowrap'>{item.content}</h3>
+                ))}
+              </div>
+            ) : null}
+
           </div>
         </div>
       </section>
