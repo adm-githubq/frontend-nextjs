@@ -6,6 +6,7 @@ import ServicePageBG from '@/public/Service-background.svg'
 import { Metadata } from 'next'
 import { defaultMetadata } from '@/core/metadata'
 import { OtherService, Service, getOtherServices } from '@/core/services'
+import TagLines from '@/components/TagLines'
 
 const FetchServiceData = async (slug: string) => {
   const ServiceData = await fetch(
@@ -106,13 +107,7 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
               {PageData.heading}
             </h1>
 
-            {homePage.data.attributes.headerTagLines ? (
-              <div className='flex gap-x-12 gap-y-2 text-xl text-white font-bold flex-wrap pb-6'>
-                {homePage.data.attributes.headerTagLines.map((item: { content: string }) => (
-                  <h3 className='text-nowrap'>{item.content}</h3>
-                ))}
-              </div>
-            ) : null}
+            <TagLines data={homePage.data.attributes.headerTagLines} className='pb-6'/>
 
             <p className='text-lg text-white whitespace-pre-wrap'>
               {PageData.subheading}

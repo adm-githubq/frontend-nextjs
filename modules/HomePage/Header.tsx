@@ -4,6 +4,7 @@ import HeadingSectionBG from '@/public/Heading-section-bg.svg'
 import HeadingImageBG from '@/public/Heading-image-bg.svg'
 import Link from 'next/link'
 import Button from '@/components/atoms/Button'
+import TagLines from '@/components/TagLines'
 
 interface HeadingProps {
   headingData: {
@@ -39,13 +40,7 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
               {headingData.HeaderTitle}
             </h2>
 
-            {headingData.headingTagLines ? (
-              <div className='flex gap-x-12 gap-y-2 text-xl text-white font-bold flex-wrap'>
-                {headingData.headingTagLines.map(item => (
-                  <h3 className='text-nowrap'>{item.content}</h3>
-                ))}
-              </div>
-            ) : null}
+            <TagLines data={headingData.headingTagLines} />
 
             <p className='text-lg text-white whitespace-pre-wrap'>
               {headingData.headingDescription}

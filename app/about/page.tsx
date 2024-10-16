@@ -8,6 +8,7 @@ import LinkedInBubble from '@/public/LinkedInBubble.svg'
 import BlobQuote from '@/public/Blob quote.svg'
 import { Metadata } from 'next'
 import { defaultMetadata } from '@/core/metadata'
+import TagLines from '@/components/TagLines'
 
 const getAboutPageData = async () => {
   const aboutPageData = await fetch(
@@ -92,13 +93,7 @@ console.log(homePage.data.attributes);
               {aboutPage.data.attributes.Heading}
             </h1>
 
-            {homePage.data.attributes.headerTagLines ? (
-              <div className='flex gap-x-12 gap-y-2 text-xl text-white font-bold md:pb-8 pb-6 flex-wrap'>
-                {homePage.data.attributes.headerTagLines.map((item: { content: string }) => (
-                  <h3 className='text-nowrap'>{item.content}</h3>
-                ))}
-              </div>
-            ) : null}
+              <TagLines data={homePage.data.attributes.headerTagLines} className='md:pb-8 pb-6' />
 
           </div>
         </div>
