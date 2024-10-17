@@ -61,7 +61,7 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
             height={650}
             width={650}
             objectPosition='right'
-            className='absolute -z-10'
+            className='absolute -z-10 md:w-1/2 min-[1200px]:w-[650px]'
             loading='eager'
             decoding='sync'
           />
