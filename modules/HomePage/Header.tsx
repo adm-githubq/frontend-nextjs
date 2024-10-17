@@ -12,7 +12,7 @@ interface HeadingProps {
     headingDescription: string
     headingButtonSecondary: string
     headingButtonPrimary: string
-    headingTagLines: { content: string }[] | null
+    headingTagLines: { id: number; content: string }[] | null
     headingImage: string
   }
 }

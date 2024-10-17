@@ -28,16 +28,6 @@ const FetchOtherServicesData = async () => {
   return OtherServicesData.json()
 }
 
-const getHomePageData = async () => {
-  const homePageData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/home-page?populate=headerTagLines`,
-  )
-  if (!homePageData.ok) {
-    throw new Error('Failed to fetch home page data')
-  }
-  return homePageData.json()
-}
-
 export const generateMetadata = async ({
   params
 }: {
@@ -55,7 +45,6 @@ export const generateMetadata = async ({
 }
 
 const ServicePage = async ({ params }: { params: { slug: string } }) => {
-  const homePage = await getHomePageData()
   const ServicePageData = await FetchServiceData(params.slug)
 
   const PageData: Service = {
@@ -107,7 +96,7 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
               {PageData.heading}
             </h1>
 
-            <TagLines data={homePage.data.attributes.headerTagLines} className='pb-6'/>
+            <TagLines data={ServicePageData.data[0].attributes.headingTagLines} className='pb-6'/>
 
             <p className='text-lg text-white whitespace-pre-wrap'>
               {PageData.subheading}
