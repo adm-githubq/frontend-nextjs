@@ -68,7 +68,6 @@ const AboutPage = async () => {
     title: testimonialsData.data.attributes.TestimonialsSectionTitle
   }
 
-console.log(aboutPage.data.attributes);
   return (
     <main className='flex flex-col items-center overflow-x-hidden '>
       <section>
