@@ -5,10 +5,11 @@ import HeadingImageBG from '@/public/Heading-image-bg.svg'
 import Link from 'next/link'
 import Button from '@/components/atoms/Button'
 import TagLines from '@/components/TagLines'
+import { marked } from 'marked'
 
 interface HeadingProps {
   headingData: {
-    mainHeading: string;
+    mainHeading: string
     HeaderTitle: string
     headingDescription: string
     headingButtonSecondary: string
@@ -34,9 +35,12 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[1440px]'>
         <div className='flex flex-col justify-center md:justify-start gap-12 items-start min-w-[300px]'>
           <div className='flex flex-col gap-6 w-[95%] items-center md:items-start'>
-            <h1 className='text-[32px] leading-[48px] font-bold text-white'>
-            {headingData.mainHeading}
-            </h1>
+            <h1
+              className='text-[32px] leading-[48px] font-bold text-white hm-MainHeader'
+              dangerouslySetInnerHTML={{
+                __html: marked.parseInline(headingData.mainHeading)
+              }}
+            />
             <h2 className='text-white font-bold text-2xl'>
               {headingData.HeaderTitle}
             </h2>
