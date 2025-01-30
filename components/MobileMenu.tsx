@@ -12,6 +12,29 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type Props = {
+  header_logos: {
+    mobile_logo: {
+      data: {
+        attributes: {
+          url: string
+        }
+      } | null
+    }
+    desktop_logo_light: {
+      data: {
+        attributes: {
+          url: string
+        }
+      } | null
+    }
+    desktop_logo_dark: {
+      data: {
+        attributes: {
+          url: string
+        }
+      } | null
+    }
+  }
   services_menu_items: {
     data: {
       id: number
@@ -46,9 +69,16 @@ const MobileMenu = (props: Props) => {
   return (
     <>
       <div className='flex justify-between items-center bg-primary px-4 py-4 w-full md:hidden '>
-        <Link href={'/'}>
-          <Image src={LogoWhite} alt='logo' width={220} height={52} />
-        </Link>
+        {props.header_logos.mobile_logo.data ? (
+          <Link href={'/'}>
+            <Image
+              src={props.header_logos.mobile_logo.data?.attributes.url}
+              alt='logo'
+              width={220}
+              height={52}
+            />
+          </Link>
+        ) : null}
         <div
           className='w-12 h-12 flex justify-center items-center cursor-pointer hover:scale-105 transition-all duration-300'
           onClick={handleNavOpen}

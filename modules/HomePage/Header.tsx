@@ -8,6 +8,7 @@ import TagLines from '@/components/TagLines'
 
 interface HeadingProps {
   headingData: {
+    mainHeading: string;
     HeaderTitle: string
     headingDescription: string
     headingButtonSecondary: string
@@ -34,7 +35,7 @@ export const HomePageHeader = ({ headingData }: HeadingProps) => {
         <div className='flex flex-col justify-center md:justify-start gap-12 items-start min-w-[300px]'>
           <div className='flex flex-col gap-6 w-[95%] items-center md:items-start'>
             <h1 className='text-[32px] leading-[48px] font-bold text-white'>
-              Quantum™ Alternative Dispute Resolution
+            {headingData.mainHeading}
             </h1>
             <h2 className='text-white font-bold text-2xl'>
               {headingData.HeaderTitle}

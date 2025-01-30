@@ -31,6 +31,7 @@ const Home = async () => {
   const resources = await getResourcesData()
 
   const headingProps = {
+    mainHeading: homePage.data.attributes.main_heading,
     HeaderTitle: homePage.data.attributes.HeaderTitle,
     headingDescription: homePage.data.attributes.headingDescription,
     headingButtonSecondary: homePage.data.attributes.headingButtonSecondary,
