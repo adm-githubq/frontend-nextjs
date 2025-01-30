@@ -46,7 +46,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  const site_settings = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/site-setting?populate[services_menu_items][fields][0]=slug&populate[services_menu_items][fields][1]=menu_text`)
+  const site_settings = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/site-setting?populate[services_menu_items][fields][0]=slug&populate[services_menu_items][fields][1]=menu_text&populate=header_logo`)
       .then(res => res.json())
       .catch(() => {
         throw new Error('Failed to fetch resources page data')
@@ -86,7 +86,7 @@ export default async function RootLayout({
           rethink_sans.className
         ].join(', ')}
       >
-        <DesktopMenu services_menu_items={site_settings.data.attributes.services_menu_items} />
+        <DesktopMenu services_menu_items={site_settings.data.attributes.services_menu_items} header_logo={site_settings.data.attributes.header_logo}/>
         <MobileMenu services_menu_items={site_settings.data.attributes.services_menu_items} />
         {/*
         {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
