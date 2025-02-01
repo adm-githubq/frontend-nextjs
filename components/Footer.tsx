@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { marked } from 'marked'
 
-import LogoWhite from '@/public/Quantum-ADR-white.svg'
+//import LogoWhite from '@/public/Quantum-ADR-white.svg'
 
 import { LinkedinIcon } from '@/public/icons/LinkedinIcon'
 import { InstagramIcon } from '@/public/icons/InstagramIcon'
@@ -12,7 +13,12 @@ import qs from 'qs'
 const Footer = async () => {
   const footerQuery = qs.stringify(
     {
-      populate: ['footer_socials']
+      populate: {
+        footer_socials: '*',
+        site_logos: {
+          populate: ['desktop_logo_light']
+        }
+      }
     },
     {
       encodeValuesOnly: true
@@ -21,7 +27,7 @@ const Footer = async () => {
 
   const {
     data: {
-      attributes: { footer_socials, footer_disclaimer }
+      attributes: { footer_socials, footer_disclaimer, site_logos }
     }
   } = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/site-setting?${footerQuery}`
@@ -64,10 +70,17 @@ const Footer = async () => {
     <div className='bg-[url("/FooterBackground.svg")] bg-contain md:bg-cover bg-no-repeat md:h-[510px] w-full h-full mt-auto flex flex-col md:flex-row justify-center md:overflow-hidden'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 w-full md:max-w-[1440px] h-full md:h-[400px] md:overflow-hidden mt-24 md:mt-36 pt-6 pb-24 md:py-6 bg-[#212427] pr-6'>
         <div className='flex flex-col items-center md:items-start gap-6 w-full px-6 md:px-24'>
-          <Image src={LogoWhite} alt='logo' height={48} width={222} />
-          <p className='text-white italic text-center tracking-tight leading-6 md:text-left md:w-[444px]'>
-            {footer_disclaimer}
-          </p>
+          <Image
+            src={site_logos.desktop_logo_light.data.attributes.url}
+            alt='logo'
+            height={48}
+            width={222}
+          />
+          <p className='text-white italic text-center tracking-tight leading-6 md:text-left md:w-[444px]'
+              dangerouslySetInnerHTML={{
+                __html: marked.parseInline(footer_disclaimer)
+              }}
+            />
         </div>
         <div className='flex flex-col md:flex-row items-center md:items-start justify-center gap-12 md:gap-16 w-full'>
           <div className='flex flex-col items-center md:items-start gap-4 md:gap-6 w-full md:w-1/2'>
