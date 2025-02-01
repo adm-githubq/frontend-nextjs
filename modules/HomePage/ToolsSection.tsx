@@ -28,7 +28,7 @@ export const ToolsSection = ({
       id='tools'
       className='w-full flex flex-col items-center justify-center gap-[64px] py-8 md:py-16 relative'
     >
-      <div className='absolute w-screen h-full -z-10 left-0 bottom-[28%] scale-125'>
+      <div className='absolute w-screen h-full -z-10 left-0 bottom-[41%] scale-125'>
         <Image
           src={LinesBackground}
           alt={'wavy background lines'}
