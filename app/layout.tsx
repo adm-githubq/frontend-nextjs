@@ -46,7 +46,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  const site_settings = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/site-setting?populate[services_menu_items][fields][0]=slug&populate[services_menu_items][fields][1]=menu_text&populate[site_logos][populate]=mobile_logo,desktop_logo_light,desktop_logo_dark`)
+    const aboutMenuQueryString = 'populate[about_menu]=true';
+  const site_settings = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/site-setting?populate[services_menu_items][fields][0]=slug&populate[services_menu_items][fields][1]=menu_text&populate[site_logos][populate]=mobile_logo,desktop_logo_light,desktop_logo_dark&${aboutMenuQueryString}`)
       .then(res => res.json())
       .catch(() => {
         throw new Error('Failed to fetch resources page data')
@@ -86,8 +87,8 @@ export default async function RootLayout({
           rethink_sans.className
         ].join(', ')}
       >
-        <DesktopMenu services_menu_items={site_settings.data.attributes.services_menu_items} header_logos={site_settings.data.attributes.site_logos}/>
-        <MobileMenu services_menu_items={site_settings.data.attributes.services_menu_items}  header_logos={site_settings.data.attributes.site_logos}/>
+        <DesktopMenu services_menu_items={site_settings.data.attributes.services_menu_items} header_logos={site_settings.data.attributes.site_logos} about_menu_items={site_settings.data.attributes.about_menu}/>
+        <MobileMenu services_menu_items={site_settings.data.attributes.services_menu_items}  header_logos={site_settings.data.attributes.site_logos} about_menu_items={site_settings.data.attributes.about_menu}/>
         {/*
         {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
         */}

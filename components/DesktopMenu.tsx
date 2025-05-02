@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { CalendlyWrapper } from './Calendly/CalendlyDynamic'
 import CalendlyScript from './Calendly/CalendlyScript'
 import { ServicesDropdown } from './ServicesDropdown'
+import NavigationDropdown from './NavigationDropdown'
 
 // import Logo from '@/public/Quantum-ADR-black.svg'
 // import LogoWhite from '@/public/Quantum-ADR-white-with-trademark.svg'
@@ -44,6 +45,11 @@ type Props = {
       }
     }[]
   }
+  about_menu_items: {
+      text: string;
+      url: string;
+      external: boolean;
+  }[]
 }
 
 const DesktopMenu: React.FC<Props> = props => {
@@ -92,9 +98,11 @@ const DesktopMenu: React.FC<Props> = props => {
             />
           </li>
           <li>
-            <Link href='/about'>
-              <p className={`${menuItemStyle} nav-item`}>ABOUT</p>
-            </Link>
+            <NavigationDropdown
+              menuItemStyle={menuItemStyle}
+              entries={props.about_menu_items}
+              anchorText='About'
+            />
           </li>
           <li className='mr-3'>
             <Link href='/resources'>

@@ -1,6 +1,7 @@
 'use client'
 
 import { ServicesDropdown } from '@/components/ServicesDropdown'
+import NavigationDropdown from './NavigationDropdown'
 import LogoBlack from '@/public/Quantum-ADR-black.svg'
 import LogoWhite from '@/public/Quantum-ADR-white.svg'
 import { CrossIcon } from '@/public/icons/CrossIcon'
@@ -44,6 +45,11 @@ type Props = {
       }
     }[]
   }
+  about_menu_items: {
+      text: string;
+      url: string;
+      external: boolean;
+  }[]
 }
 
 const MobileMenu = (props: Props) => {
@@ -134,8 +140,13 @@ const MobileMenu = (props: Props) => {
                   services_menu_items={props.services_menu_items}
                 />
               </li>
-              <li onClick={() => handleMenuSelect('/about')}>
-                <p className='nav-item'>About</p>
+              <li>
+                <NavigationDropdown
+                  onMenuSelect={handleNavClose}
+                  menuItemStyle={menuItemStyle}
+                  entries={props.about_menu_items}
+                  anchorText='About'
+                />
               </li>
               <li
                 onClick={() => handleMenuSelect('/resources')}
